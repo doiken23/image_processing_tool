@@ -26,9 +26,9 @@ def crop_save_images(image_path, output_dir, crop_size, stride):
     Y = (h - crop_size)//stride + 1
     for j in range(Y):
         for i in range(X):
-            y = j * crop_size
-            x = i * crop_size
-            patch_array = image_array[y: y + stride, x: x + stride,:]
+            y = j * stride
+            x = i * stride
+            patch_array = image_array[y: y + crop_size, x: x + crop_size, :]
             output_image_name = image_path[:-4] + '_{}_{}'.format(str(j), str(i))
             output_path = os.path.join(output_dir, output_image_name.split('/')[-1])
             np.save(output_path, patch_array)
