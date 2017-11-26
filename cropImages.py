@@ -17,10 +17,11 @@ def get_argment():
     return args
 
 ### crop the image and save as *.py
-def crop_save_images(image_path, output_dir, crop_size, stride):
+def crop_save_images(image_path, output_dir, crop_size, stride, flag):
     # read the image
     if flag == 0:
         image_array = cv2.imread(image_path, flag)
+        image_array = image_array[:, :, np.newaxis]
     else:
         image_array = cv2.imread(image_path)
     (h, w, c) = image_array.shape
@@ -33,8 +34,6 @@ def crop_save_images(image_path, output_dir, crop_size, stride):
             y = j * stride
             x = i * stride
             patch_array = image_array[y: y + crop_size, x: x + crop_size, :]
-            if flag == 0:
-                path_array[:, :, np.newaxis]
             patch_array = np.transpose(patch_array, (2,0,1))
             output_image_name = image_path[:-4] + '_{}_{}'.format(str(j), str(i))
             output_path = os.path.join(output_dir, output_image_name.split('/')[-1])
@@ -59,7 +58,7 @@ def main():
 
     # implement the main roop
     for image_path in image_path_list:
-        crop_save_images(image_path, output_dir, crop_size, stride)
+        crop_save_images(image_path, output_dir, crop_size, stride, flag)
         print('Complete saving the {}......'.format(image_path.split('/')[-1]))
 
 
