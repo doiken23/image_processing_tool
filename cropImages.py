@@ -5,20 +5,24 @@ import os, sys, time
 ### get the argment
 def get_argment():
     args = sys.argv
-    if len(args) != 5:
+    if len(args) != 6:
         print("argments must be 4!!!!\n"
                + "1: path of image or directory.\n"
                + "2: path of the output directory.\n"
                + "3: cropping size.\n"
-               + "4: stride."
+               + "4: stride.\n"
+               + "5: flag.(if band is 1 band, flag should be 0. else 1"
                 )
         sys.exit()
     return args
 
 ### crop the image and save as *.py
 def crop_save_images(image_path, output_dir, crop_size, stride):
-    # open the image
-    image_array = cv2.imread(image_path)
+    # read the image
+    if flag == 0:
+        image_array = cv2.imread(image_path, flag)
+    else:
+        image_array = cv2.imread(image_path)
     (h, w, c) = image_array.shape
 
     # compute the window number
@@ -29,6 +33,8 @@ def crop_save_images(image_path, output_dir, crop_size, stride):
             y = j * stride
             x = i * stride
             patch_array = image_array[y: y + crop_size, x: x + crop_size, :]
+            if flag == 0:
+                path_array[:, :, np.newaxis]
             patch_array = np.transpose(patch_array, (2,0,1))
             output_image_name = image_path[:-4] + '_{}_{}'.format(str(j), str(i))
             output_path = os.path.join(output_dir, output_image_name.split('/')[-1])
@@ -42,6 +48,7 @@ def main():
     output_dir = os.path.abspath(args[2])
     crop_size = int(args[3])
     stride = int(args[4])
+    flag = int(args[5])
 
     # get the image path list
     if os.path.isdir(images_path):
