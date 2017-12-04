@@ -11,7 +11,7 @@ def get_argment():
                + "2: path of the output directory.\n"
                + "3: cropping size.\n"
                + "4: stride.\n"
-               + "5: flag.(if band is 1 band, flag should be 0. else 1"
+               + "5: flag.(if band is 1 band, flag should be 0. else 1)"
                 )
         sys.exit()
     return args
