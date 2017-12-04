@@ -2,7 +2,7 @@ import numpy as np
 import sys
 import os
 import time
-import cv2
+import cv2 
 
 # get argument
 def get_argument():
@@ -18,12 +18,12 @@ def get_argument():
 def change_label(arr):
     h, w, b = arr.shape
     out_arr = np.zeros((h, w, 1))
-    out_arr += 0 * (np.all(arr == np.array([0,0,255]), axis=2))[:, :, np.newaxis]
-    out_arr += 1 * (np.all(arr == np.array([0,255,255]), axis=2))[:, :, np.newaxis]
-    out_arr += 2 * (np.all(arr == np.array([0,255,0]), axis=2))[:, :, np.newaxis]
-    out_arr += 3 * (np.all(arr == np.array([255,255,0]), axis=2))[:, :, np.newaxis]
-    out_arr += 4 * (np.all(arr == np.array([255,0,0]), axis=2))[:, :, np.newaxis]
-    out_arr += -100 * (np.all(arr == np.array([255,255,255]), axis=2))[:, :, np.newaxis]
+    out_arr += 0 * (np.all(arr == np.array([255,255,255]), axis=2))[:, :, np.newaxis]
+    out_arr += 1 * (np.all(arr == np.array([0,0,255]), axis=2))[:, :, np.newaxis]
+    out_arr += 2 * (np.all(arr == np.array([0,255,255]), axis=2))[:, :, np.newaxis]
+    out_arr += 3 * (np.all(arr == np.array([0,255,0]), axis=2))[:, :, np.newaxis]
+    out_arr += 4 * (np.all(arr == np.array([255,255,0]), axis=2))[:, :, np.newaxis]
+    out_arr += 5 * (np.all(arr == np.array([255,0,0]), axis=2))[:, :, np.newaxis]
 
     return out_arr
 
@@ -43,10 +43,11 @@ def main():
 
     # implement the main program
     for image_path in image_path_list:
-        img = cv2.imread(image_path)
-        arr = np.array(img)
+        image = cv2.imread(image_path)
+        image = image[:,:,::-1]
+        array = np.array(image)
 
-        out_array = change_label(arr)
+        out_array = change_label(array)
         out_path = output_dir + '/' + image_path.split('/')[-1][:-4] + '_labeled.png'
         cv2.imwrite(out_path, out_array)
 
