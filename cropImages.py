@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import os, sys, time
+from tqdm import tqdm
 
 ### get the argment
 def get_argment():
@@ -29,7 +30,7 @@ def crop_save_images(image_path, output_dir, crop_size, stride, flag):
     # compute the window number
     X = (w - crop_size)//stride + 1
     Y = (h - crop_size)//stride + 1
-    for j in range(Y):
+    for j in tqdm(range(Y)):
         for i in range(X):
             y = j * stride
             x = i * stride
@@ -57,7 +58,7 @@ def main():
         image_path_list = [images_path]
 
     # implement the main roop
-    for image_path in image_path_list:
+    for image_path in tqdm(image_path_list):
         crop_save_images(image_path, output_dir, crop_size, stride, flag)
         print('Complete saving the {}......'.format(image_path.split('/')[-1]))
 
