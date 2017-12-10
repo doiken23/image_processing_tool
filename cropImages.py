@@ -1,31 +1,28 @@
 import numpy as np
-import cv2
+from osgeo import gdal
 import os, sys, time
 from tqdm import tqdm
 
 ### get the argment
 def get_argment():
     args = sys.argv
-    if len(args) != 6:
+    if len(args) != 5:
         print("argments must be 4!!!!\n"
                + "1: path of image or directory.\n"
                + "2: path of the output directory.\n"
                + "3: cropping size.\n"
                + "4: stride.\n"
-               + "5: flag.(if band is 1 band, flag should be 0. else 1)"
                 )
         sys.exit()
     return args
 
 ### crop the image and save as *.py
-def crop_save_images(image_path, output_dir, crop_size, stride, flag):
+def crop_save_images(image_path, output_dir, crop_size, stride):
     # read the image
-    if flag == 0:
-        image_array = cv2.imread(image_path, flag)
-        image_array = image_array[:, :, np.newaxis]
-    else:
-        image_array = cv2.imread(image_path)
-    (h, w, c) = image_array.shape
+    image_array = gdal.Open(image_path).ReadAsArray()
+
+    # get shape of image
+    (c, h, w) = image_array.shape
 
     # compute the window number
     X = (w - crop_size)//stride + 1
@@ -34,8 +31,7 @@ def crop_save_images(image_path, output_dir, crop_size, stride, flag):
         for i in range(X):
             y = j * stride
             x = i * stride
-            patch_array = image_array[y: y + crop_size, x: x + crop_size, :]
-            patch_array = np.transpose(patch_array, (2,0,1))
+            patch_array = image_array[:, y: y + crop_size, x: x + crop_size]
             output_image_name = image_path[:-4] + '_{}_{}'.format(str(j), str(i))
             output_path = os.path.join(output_dir, output_image_name.split('/')[-1])
             np.save(output_path, patch_array)
@@ -48,7 +44,6 @@ def main():
     output_dir = os.path.abspath(args[2])
     crop_size = int(args[3])
     stride = int(args[4])
-    flag = int(args[5])
 
     # get the image path list
     if os.path.isdir(images_path):
@@ -59,8 +54,8 @@ def main():
 
     # implement the main roop
     for image_path in tqdm(image_path_list):
-        crop_save_images(image_path, output_dir, crop_size, stride, flag)
-        print('Complete saving the {}......'.format(image_path.split('/')[-1]))
+        crop_save_images(image_path, output_dir, crop_size, stride)
+        # print('Complete saving the {}......'.format(image_path.split('/')[-1]))
 
 
 ### implement the program
