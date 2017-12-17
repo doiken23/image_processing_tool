@@ -18,4 +18,7 @@ ISPRS 2D Semantic Labeling Contest の正解ラベルの番号を振り直しま
 1. 出力ディレクトリパス
 1. 出力ファイル名
 
-
+### median frequency balancing 用の weight array を作成するツール
+1. ラベル画像のディレクトリパス
+1. 出力ディレクトリパス
+1. クラス数
