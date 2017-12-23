@@ -3,6 +3,7 @@ import sys
 import os
 import time
 import cv2 
+from tqdm import tqdm
 
 # get argument
 def get_argument():
@@ -42,7 +43,7 @@ def main():
         image_path_list = [images_path]
 
     # implement the main program
-    for image_path in image_path_list:
+    for image_path in tqdm(image_path_list):
         image = cv2.imread(image_path)
         image = image[:,:,::-1]
         array = np.array(image)
