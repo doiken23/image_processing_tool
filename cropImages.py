@@ -1,6 +1,6 @@
 from PIL import Image
 import numpy as np
-from osgeo import gdal
+import tifffile
 import os, sys, time
 from tqdm import tqdm
 
@@ -21,7 +21,8 @@ def get_argment():
 def crop_save_images(image_path, output_dir, crop_size, stride):
     # read the image
     if image_path[-3:] == 'tif':
-        image_array = gdal.Open(image_path).ReadAsArray()
+        image_array = tifffile.imread(image_path)
+        image_array = image_array.transpose(2,0,1)
     else:
         img = Image.open(image_path)
         image_array = np.array(img)
