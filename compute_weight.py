@@ -43,7 +43,7 @@ def compute_weight(args):
     weight = np.zeros(args.class_num)
     weight = np.median(pixel_num) / pixel_num
     
-    np.save(os.path.join(args.out_dir, 'weght.npy'), weight)
+    np.save(os.path.join(args.out_dir, 'weight.npy'), weight)
     return weight
 
 def main():
