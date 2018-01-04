@@ -15,8 +15,8 @@ import pandas as pd
 # get arguments
 def get_arguments():
     args = sys.argv
-    if len(args) != 4:
-        print("Arguments should be 5!!!\n" +
+    if len(args) != 5:
+        print("Arguments should be 4!!!\n" +
               "1: inferenced image (directory) path\n" +
               "2: GT image (directory) path\n" +
               "3: out put directory\n" +
@@ -42,7 +42,7 @@ def main():
     class_num = args[4]
 
     # make image path list
-    if os.isdir(image_path):
+    if os.path.isdir(image_path):
         image_path_list = glob.glob(image_path + '/*')
         GT_path_list    = glob.glob(GT_path + '/*')
     else:
