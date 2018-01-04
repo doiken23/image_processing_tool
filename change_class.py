@@ -25,6 +25,7 @@ def change_label(arr):
     out_arr += 3 * (np.all(arr == np.array([0,255,0]), axis=2))[:, :, np.newaxis]
     out_arr += 4 * (np.all(arr == np.array([255,255,0]), axis=2))[:, :, np.newaxis]
     out_arr += 5 * (np.all(arr == np.array([255,0,0]), axis=2))[:, :, np.newaxis]
+    out_arr += 6 * (np.all(arr == np.array([0, 0, 0]), axis=2))[:, :, np.newaxis]
 
     return out_arr
 
