@@ -25,7 +25,7 @@ def compute_weight(args):
     
     # get the image path list
     image_path_list = os.listdir(args.image_dir)
-    image_path_list = [image_path for image_path in image_path_list if image_path[-3:] == 'png']
+    image_path_list = [image_path for image_path in image_path_list if image_path[-3:] in ['png', 'tif']]
     image_path_list = [os.path.join(args.image_dir, image_path) for image_path in image_path_list]
 
     # read the image and compute the weight
