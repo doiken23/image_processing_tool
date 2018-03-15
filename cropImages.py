@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import tifffile
+import spectral
 import os, sys, time
 from tqdm import tqdm
 
@@ -26,6 +27,9 @@ def crop_save_images(image_path, output_dir, crop_size, stride):
             image_array = image_array.transpose(2,0,1)
         else:
             image_array = image_array[np.newaxis, :, :]
+    elif image_path[-3:] in ['hdr', 'HDR']:
+        img = spectral.open_image(image_path)
+        image_array = img.load()
     else:
         img = Image.open(image_path)
         image_array = np.array(img)
