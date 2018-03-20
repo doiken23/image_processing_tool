@@ -30,6 +30,7 @@ def crop_save_images(image_path, output_dir, crop_size, stride):
     elif image_path[-3:] in ['hdr', 'HDR']:
         img = spectral.open_image(image_path)
         image_array = img.load()
+        image_array = image_array.transpose(2,0,1)
     else:
         img = Image.open(image_path)
         image_array = np.array(img)
